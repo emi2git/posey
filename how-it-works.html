@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How it works · Posey</title>
+  <meta name="description" content="How Posey checks your form: an on-device pose model finds 33 body points, simple angle math and per-exercise rules turn them into rep counts and spoken cues.">
+  <link rel="canonical" href="https://posey-c55.pages.dev/how-it-works">
+  <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Posey">
+  <meta property="og:title" content="How it works · Posey">
+  <meta property="og:description" content="How Posey checks your form: an on-device pose model finds 33 body points, simple angle math and per-exercise rules turn them into rep counts and spoken cues.">
+  <meta property="og:url" content="https://posey-c55.pages.dev/how-it-works">
+  <meta property="og:image" content="https://posey-c55.pages.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Posey: your AI form coach, right in the browser">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Main">
+      <a class="logo" href="/" aria-label="Posey home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="var(--accent)"/><g fill="none" stroke="var(--accent-ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 10 32 24 47 10M32 24v14M19 54l13-16 13 16"/></g><circle cx="32" cy="13" r="5.5" fill="var(--accent-ink)"/></svg><span>Posey</span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="i-open"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="i-close"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/exercises">Exercises</a></li>
+          <li><a href="/how-it-works" aria-current="page">How it works</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+        <a class="btn btn-primary nav-cta" href="/workout">Start workout</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="wrap page-head">
+      <span class="eyebrow">How it works</span>
+      <h1>How Posey sees your form</h1>
+      <p class="lead">A small AI model finds your joints, a bit of geometry measures the angles, and simple coaching rules decide what to say. All of it runs in your browser.</p>
+    </div>
+
+    <section class="wrap section-tight" aria-labelledby="flow-h">
+      <h2 id="flow-h" class="sr-only">Data flow</h2>
+      <div class="device-box">
+        <span class="label">Everything here runs on your device</span>
+        <ol class="flow" aria-label="From camera to feedback">
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><b>Camera</b><span>Video frames, about 30 a second</span></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg></div><b>Pose model</b><span>Finds 33 body points per frame</span></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M3 20 15 5"/><path d="M9.5 20a6.5 6.5 0 0 0-2.4-5"/></svg></div><b>Angle math</b><span>Knee angle, back lean, arm height</span></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><b>Exercise rules</b><span>Deep enough? Arms high enough?</span></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><b>Feedback</b><span>Rep count, cues and voice</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="wrap section" aria-label="Details">
+      <div class="prose">
+        <h2>1. The camera</h2>
+        <p>When you press <strong>Start camera</strong>, your browser asks for permission. The video goes to a canvas on the page and nowhere else.</p>
+        <h2>2. The pose model</h2>
+        <p>Posey uses <strong>MediaPipe Pose Landmarker</strong>, a small open model from Google (about 5&nbsp;MB). For every frame it finds 33 points on your body: shoulders, elbows, hips, knees, ankles and more. It runs on your device's graphics chip when it can, or the processor when it can't.</p>
+        <h2>3. Angles, not guesswork</h2>
+        <p>The form check itself is plain geometry. For a squat, Posey measures the angle at your knee (hip, knee, ankle) and how far your back leans from vertical. For jumping jacks, it compares wrist height to your head and foot spread to your shoulders.</p>
+        <h2>4. Exercise rules</h2>
+        <p>Each exercise has its own rules. A rep counts only when it is complete, so half reps don't pad your number. Instead, Posey tells you what to fix.</p>
+      </div>
+      <div class="rules" data-exercise-rules style="margin-top:24px"></div>
+
+      <div class="prose" style="margin-top:48px">
+        <h2>5. The voice coach</h2>
+        <ul>
+          <li>Every clean rep is counted out loud: "One", "Two", "Three"…</li>
+          <li>Corrections such as "Go lower" or "Chest up" are spoken straight away and take priority over the count.</li>
+          <li>A little encouragement every fifth rep, never the same phrase twice in a row.</li>
+          <li>Pick any voice your device offers, or mute the coach with one tap.</li>
+        </ul>
+        <h2>Tips for a good read</h2>
+        <ul>
+          <li>Keep your <strong>whole body</strong> in frame, head to feet.</li>
+          <li>Use good, even light and a plain background if you can.</li>
+          <li>Prop the device up so it stays still, about 2–3 metres away.</li>
+          <li>Follow the setup for each exercise: <strong>side-on</strong> for squats, <strong>facing the camera</strong> for jumping jacks.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-tight" style="padding-bottom:72px">
+      <div class="wrap">
+        <div class="cta-band">
+          <h2>Try it yourself</h2>
+          <p>It takes a few seconds to load the model the first time.</p>
+          <div class="actions"><a class="btn btn-primary btn-lg" href="/exercises">Choose an exercise <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a class="logo" href="/" aria-label="Posey home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="var(--accent)"/><g fill="none" stroke="var(--accent-ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 10 32 24 47 10M32 24v14M19 54l13-16 13 16"/></g><circle cx="32" cy="13" r="5.5" fill="var(--accent-ink)"/></svg><span>Posey</span></a>
+          <p>An AI form coach that runs in your browser. Your camera video stays on your device.</p>
+        </div>
+        <div>
+          <h2>Train</h2>
+          <ul>
+            <li><a href="/exercises">Exercises</a></li>
+            <li><a href="/workout">Start workout</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Learn</h2>
+          <ul>
+            <li><a href="/how-it-works">How it works</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/about#privacy">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Posey</span>
+        <span>Coaching tips, not medical advice.</span>
+      </div>
+    </div>
+  </footer>
+  <script type="module" src="/site.js"></script>
+</body>
+</html>

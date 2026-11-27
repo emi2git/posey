@@ -28,6 +28,8 @@ export const jumpingJacks = {
   id: "jumping-jacks",
   name: "Jumping Jacks",
   view: "Front view",
+  summary: "A full-body cardio move. Posey checks that every jack goes all the way out.",
+  checks: ["Arms: hands reach above your head", "Feet: jump out to at least 1.5× shoulder width", "Full reps: back to feet together, arms down"],
   instructions:
     "Face the camera, whole body in view. Jump your feet wider than your shoulders and clap your hands above your head, then jump back to feet together, arms down.",
 

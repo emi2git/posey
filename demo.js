@@ -18,6 +18,9 @@ function poseAt(demo, t) {
   return Object.fromEntries(Object.keys(a.pose).map((j) => [j, [0, 1].map((n) => a.pose[j][n] + (b.pose[j][n] - a.pose[j][n]) * f)]));
 }
 
+// Reduced motion: hold a single pose (the deepest/widest point) instead of looping.
+const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 export function mountDemo(svg) {
   svg.setAttribute("viewBox", "0 0 100 100");
   const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; };
@@ -28,7 +31,7 @@ export function mountDemo(svg) {
   function frame(now) {
     requestAnimationFrame(frame);
     if (!demo) return;
-    const p = poseAt(demo, (now % demo.duration) / demo.duration);
+    const p = poseAt(demo, still() ? 0.5 : (now % demo.duration) / demo.duration);
     limbs.forEach((names, i) => lines[i].setAttribute("points", names.map((n) => p[n].join(",")).join(" ")));
     head.setAttribute("cx", p.head[0]);
     head.setAttribute("cy", p.head[1]);

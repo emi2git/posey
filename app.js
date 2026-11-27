@@ -13,7 +13,9 @@ const ui = { status: $("status"), statusText: $("status-text"), cue: $("cue"), r
 // Exposed for automated testing / debugging.
 const state = (window.posey = { ready: false, frames: 0, detected: 0, reps: 0, cue: "", status: "idle", cues: new Set(), statuses: new Set() });
 
-let exercise = exercises[0];
+// Chosen exercise comes from the link: /workout?exercise=<id> (falls back to the first one).
+const fromUrl = new URLSearchParams(location.search).get("exercise");
+let exercise = (Object.hasOwn(byId, fromUrl ?? "") && byId[fromUrl]) || exercises[0];
 let counter = exercise.createRepCounter();
 let landmarker, vision, smooth = null, hold = null;
 
@@ -50,12 +52,17 @@ function esc(t) { return String(t).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0
 // Picker
 const pick = $("exercise");
 pick.innerHTML = exercises.map((e) => `<option value="${e.id}">${e.name} · ${e.view}</option>`).join("");
-pick.onchange = () => selectExercise(pick.value);
+pick.onchange = () => {
+  selectExercise(pick.value);
+  history.replaceState(null, "", `?exercise=${encodeURIComponent(exercise.id)}`);
+};
 function selectExercise(id) {
   exercise = byId[id];
   counter = exercise.createRepCounter();
   $("ex-name").textContent = exercise.name;
   $("ex-help").textContent = exercise.instructions;
+  pick.value = exercise.id;
+  document.title = `${exercise.name} workout · Posey`;
   ui.reps.textContent = "0";
   smooth = null; hold = null;
   voice.reset();
