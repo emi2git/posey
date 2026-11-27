@@ -11,7 +11,7 @@ const video = $("video"), canvas = $("overlay"), ctx = canvas.getContext("2d");
 const ui = { status: $("status"), statusText: $("status-text"), cue: $("cue"), reps: $("reps"), metrics: $("metrics") };
 
 // Exposed for automated testing / debugging.
-const state = (window.formCheck = { ready: false, frames: 0, detected: 0, reps: 0, cue: "", status: "idle", cues: new Set(), statuses: new Set() });
+const state = (window.posey = { ready: false, frames: 0, detected: 0, reps: 0, cue: "", status: "idle", cues: new Set(), statuses: new Set() });
 
 let exercise = exercises[0];
 let counter = exercise.createRepCounter();

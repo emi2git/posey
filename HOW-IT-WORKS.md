@@ -1,4 +1,4 @@
-# Emi Form Check — how it works
+# Posey — how it works
 
 ## Tech
 - **AI model:** MediaPipe Pose Landmarker (Google, BlazePose). Small neural net, ~5 MB. Finds 33 body points / frame.

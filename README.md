@@ -1,4 +1,4 @@
-# Emi Form Check
+# Posey
 
 Tiny proof-of-concept: reads the webcam and checks exercise form in real time with
 MediaPipe PoseLandmarker (runs in the browser, loaded from a CDN). Plain HTML/JS, no build.
