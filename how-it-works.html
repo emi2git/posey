@@ -46,7 +46,6 @@
 
   <main id="main">
     <div class="wrap page-head">
-      <span class="eyebrow">Under the hood</span>
       <h1>How it works</h1>
     </div>
 
@@ -55,37 +54,32 @@
       <div class="device-box">
         <span class="label">All on your device</span>
         <ol class="flow" aria-label="From camera to feedback">
-          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><b>Camera</b><span>~30 frames a second</span></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><b>Camera</b><span>30 fps</span></li>
           <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg></div><b>Pose model</b><span>33 body points</span></li>
           <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M3 20 15 5"/><path d="M9.5 20a6.5 6.5 0 0 0-2.4-5"/></svg></div><b>Angle math</b><span>Knee, back, arms</span></li>
-          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><b>Exercise rules</b><span>Deep enough? Arms up?</span></li>
+          <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><b>Exercise rules</b><span>Deep enough?</span></li>
           <li><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><b>Feedback</b><span>Reps, cues, voice</span></li>
         </ol>
       </div>
     </section>
 
-    <section class="wrap section" style="padding-top:8px" aria-label="Details">
+    <section class="wrap section-end" aria-label="Details">
       <div class="prose">
         <ul>
-          <li>Pose model: MediaPipe, ~5&nbsp;MB, runs in the browser</li>
-          <li>Form check: plain angle math</li>
-          <li>Only full reps count</li>
-          <li>Fixes spoken first, then the count</li>
-          <li>Pick a voice or mute</li>
-          <li>Whole body in frame, good light</li>
+          <li>MediaPipe model, in browser</li>
+          <li>Plain angle math</li>
+          <li>Only clean reps count</li>
+          <li>Pick a voice, or mute</li>
         </ul>
-        <h2>What it checks</h2>
       </div>
-      <div class="rules" data-exercise-rules></div>
     </section>
-
   </main>
   <footer class="site-footer">
     <div class="wrap">
       <div class="footer-grid">
         <div>
           <a class="logo" href="/" aria-label="Posey home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="var(--accent)"/><g fill="none" stroke="var(--accent-ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 10 32 24 47 10M32 24v14M19 54l13-16 13 16"/></g><circle cx="32" cy="13" r="5.5" fill="var(--accent-ink)"/></svg><span>Posey</span></a>
-          <p>Form coach in your browser. Video stays on your device.</p>
+          <p>Video stays on your device.</p>
         </div>
         <div>
           <h2>Train</h2>

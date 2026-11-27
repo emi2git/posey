@@ -1,6 +1,6 @@
 // Jumping Jacks (front view). Arms = lower wrist height, 0 at shoulder line, 1 at top of head.
 // Feet = ankle spread / shoulder width. Rep = closed -> open (top) -> closed.
-import { LM } from "./geometry.js";
+import { LM, movingAverage, HOLD_FRAMES } from "./geometry.js";
 
 const ARMS_TOP = 1.0;    // wrists above the head at the top
 const FEET_TOP = 1.5;    // ankle spread >= 1.5x shoulder width at the top
@@ -8,6 +8,8 @@ const OPEN_ARMS = -0.2;  // past this (or OPEN_FEET) a rep has started
 const OPEN_FEET = 1.4;
 const CLOSED_ARMS = -0.5; // arms down...
 const CLOSED_FEET = 1.3;  // ...and feet together = rep finished
+const TURN_ARMS = 0.3;   // arms drop this far below their peak = turned back
+const TURN_FEET = 0.3;   // or feet close this much
 const HEAD = 0.75;       // nose -> top of head, in nose->shoulder-line units
 
 const CLOSED = {
@@ -69,22 +71,44 @@ export const jumpingJacks = {
 
   describe: (m) => `arms ${m.arms.toFixed(2)} · feet ${m.feet.toFixed(1)}× shoulders`,
 
+  // Rep rules: arms >= ARMS_TOP and feet >= FEET_TOP together for HOLD_FRAMES frames (5-frame trimmed average),
+  // and no correction during the rep. Turning back before the top -> "Arms higher"/"Feet wider" at once;
+  // the rep is failed and not counted. Everything resets when closed again.
   createRepCounter() {
-    let started = false, peakArms = -Infinity, peakFeet = 0, count = 0;
+    const avg = movingAverage(5);
+    let started = false, top = false, failed = false, count = 0;
+    let topRun = 0, armsRun = 0, feetRun = 0, armsOk = false, feetOk = false, peakArms = -Infinity, peakFeet = 0;
+    const reset = () => { top = failed = armsOk = feetOk = false; topRun = armsRun = feetRun = 0; peakArms = -Infinity; peakFeet = 0; };
+    const faultText = () => {
+      const f = [];
+      if (!armsOk) f.push("Arms higher");
+      if (!feetOk) f.push(f.length ? "feet wider" : "Feet wider");
+      return f.join(", ") || "Arms higher";
+    };
     return {
       get count() { return count; },
-      // returns { count, event: null | "rep" | "fault", fault (spoken cue), cue (neutral guidance) }
-      update(m) {
-        if (!m) return { count, event: null, cue: null };
+      // update(metrics, corrections?) -> { count, event: null | "rep" | "fault" | "failed", fault (spoken cue), cue }
+      update(raw, corrections = []) {
+        if (!raw) return { count, event: null, cue: null };
+        const m = avg.push(raw);
         let event = null, fault = null;
-        if (m.arms > OPEN_ARMS || m.feet > OPEN_FEET) started = true;
-        if (started) { peakArms = Math.max(peakArms, m.arms); peakFeet = Math.max(peakFeet, m.feet); }
-        if (started && m.arms < CLOSED_ARMS && m.feet < CLOSED_FEET) {
-          const faults = [];
-          if (peakArms < ARMS_TOP) faults.push("Arms higher");
-          if (peakFeet < FEET_TOP) faults.push(faults.length ? "feet wider" : "Feet wider");
-          if (faults.length) { event = "fault"; fault = faults.join(", "); } else { count++; event = "rep"; }
-          started = false; peakArms = -Infinity; peakFeet = 0;
+        if (!started && (m.arms > OPEN_ARMS || m.feet > OPEN_FEET)) { started = true; reset(); }
+        if (started) {
+          if (corrections.length) failed = true;
+          const aUp = m.arms >= ARMS_TOP, fUp = m.feet >= FEET_TOP;
+          armsRun = aUp ? armsRun + 1 : 0; feetRun = fUp ? feetRun + 1 : 0; topRun = aUp && fUp ? topRun + 1 : 0;
+          if (armsRun >= HOLD_FRAMES) armsOk = true;
+          if (feetRun >= HOLD_FRAMES) feetOk = true;
+          if (topRun >= HOLD_FRAMES) top = true;
+          peakArms = Math.max(peakArms, m.arms); peakFeet = Math.max(peakFeet, m.feet);
+          const turned = peakArms - m.arms > TURN_ARMS || peakFeet - m.feet > TURN_FEET;
+          if (!top && !failed && turned) { failed = true; event = "fault"; fault = faultText(); }
+          if (m.arms < CLOSED_ARMS && m.feet < CLOSED_FEET) {
+            if (top && !failed) { count++; event = "rep"; }
+            else if (!failed) { event = "fault"; fault = faultText(); }
+            else if (!event) event = "failed";
+            started = false;
+          }
         }
         return { count, event, fault, cue: started ? "Back in" : "Jump out" };
       },

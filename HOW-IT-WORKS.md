@@ -34,9 +34,9 @@
    / \            /  \             / \
  knee ~180°     knee <100°      knee >160°  → +1 rep
 ```
-- Knee not < 100° → **"Go lower"**
+- Turns back up before knee < 100° → **"Go lower"** (said right away)
 - Back lean > 45° → **"Chest up"**
-- Both ok → **"Good rep!"**
+- Counts only if knee < 100° held 3 frames and no fix was called during the rep.
 
 ## Jumping Jacks rules
 ```
@@ -50,7 +50,9 @@
 ```
 - Wrists not above head at top → **"Arms higher"**
 - Feet < ~1.5× shoulder width at top → **"Feet wider"**
-- Bad rep = not counted.
+- Said as soon as you come back in early.
+- Counts only if top held 3 frames and no fix was called. Bad rep = not counted.
+- Angles are smoothed over 5 frames, so one noisy frame can't count a rep.
 - Face camera, whole body in view.
 
 ## Voice

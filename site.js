@@ -27,35 +27,20 @@ const esc = (t) => String(t).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
 const startHref = (ex) => `/workout?exercise=${encodeURIComponent(ex.id)}`;
 const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
-function card(ex, full) {
+function card(ex) {
   return `<article class="ex-card" id="${esc(ex.id)}">
   <figure class="ex-preview"><svg class="stick" role="img" aria-label="${esc(ex.name)}: animation of correct form"></svg></figure>
   <div class="ex-body">
     <div class="ex-title"><h3>${esc(ex.name)}</h3><span class="tag">${esc(ex.view)}</span></div>
-    <p class="ex-summary">${esc(ex.summary || "")}</p>
-    ${full && ex.checks?.length ? `<ul class="ex-checks" aria-label="What Posey checks">${ex.checks.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}
-    ${full ? `<p class="ex-setup"><strong>Setup:</strong> ${esc(ex.instructions)}</p>` : ""}
-    <a class="btn ${full ? "btn-primary" : "btn-ghost"}" href="${startHref(ex)}">Start ${esc(ex.name)} ${ARROW}</a>
+    <a class="btn btn-primary" href="${startHref(ex)}" aria-label="Start ${esc(ex.name)}">Start ${ARROW}</a>
   </div>
 </article>`;
 }
 
 for (const grid of document.querySelectorAll("[data-exercise-grid]")) {
-  const full = grid.dataset.exerciseGrid === "full";
-  grid.innerHTML = exercises.map((ex) => card(ex, full)).join("");
+  grid.innerHTML = exercises.map(card).join("");
   grid.querySelectorAll("svg.stick").forEach((svg, i) => mountDemo(svg).set(exercises[i].demo));
 }
-
-// Rules summary (How it works page).
-for (const box of document.querySelectorAll("[data-exercise-rules]")) {
-  box.innerHTML = exercises.map((ex) => `<div class="rule">
-    <h3>${esc(ex.name)} <span class="tag">${esc(ex.view)}</span></h3>
-    <ul class="ex-checks">${(ex.checks || []).map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
-  </div>`).join("");
-}
-
-// Exercise count wherever it is shown.
-document.querySelectorAll("[data-exercise-count]").forEach((el) => (el.textContent = exercises.length));
 
 // ---------- Hero stick-man: cycles through the exercises, counting loops as "reps" ----------
 const hero = document.querySelector("[data-hero-demo]");

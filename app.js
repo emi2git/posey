@@ -148,9 +148,10 @@ function render(lm) {
   }
   misses = 0;
 
-  // Light smoothing on metrics to keep the rep logic steady.
+  // Light smoothing for the on-screen numbers. The rep counter smooths on its own and gets this frame's
+  // corrections: any correction during a rep fails that rep.
   smooth = smooth ? Object.fromEntries(Object.entries(r.metrics).map(([k, v]) => [k, typeof v === "number" ? smooth[k] * 0.5 + v * 0.5 : v])) : r.metrics;
-  const rep = counter.update(smooth);
+  const rep = counter.update(r.metrics, r.ok ? [] : r.messages);
   const now = performance.now();
 
   if (rep.event === "rep") {

@@ -35,3 +35,27 @@ export function leanFromVertical(top, bottom, aspect = 1) {
   const dy = bottom.y - top.y;
   return (Math.atan2(Math.abs(dx), dy) * 180) / Math.PI;
 }
+
+// Trimmed moving average over the last n frames (drop the highest and lowest, average the rest) for every
+// numeric field of a metrics object. Rep counters use it so one noisy frame can't cross a threshold.
+// push(m) -> smoothed copy of m.
+export function movingAverage(n = 5) {
+  const buf = [];
+  return {
+    push(m) {
+      buf.push(m);
+      if (buf.length > n) buf.shift();
+      const out = { ...m };
+      for (const k of Object.keys(m)) {
+        if (typeof m[k] !== "number") continue;
+        const v = buf.map((b) => b[k]).sort((a, b) => a - b);
+        const t = v.length >= 4 ? v.slice(1, -1) : v;
+        out[k] = t.reduce((s, x) => s + x, 0) / t.length;
+      }
+      return out;
+    },
+  };
+}
+
+// Frames in a row a threshold must hold before it counts as reached.
+export const HOLD_FRAMES = 3;
