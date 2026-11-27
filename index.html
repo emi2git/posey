@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d12" />
+  <title>Emi Form Check</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22%237c9cff%22/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="bar">
+    <div class="brand"><span class="dot"></span>Emi Form Check</div>
+    <div class="controls">
+      <button id="mute" class="icon" aria-label="Mute voice" aria-pressed="false" title="Voice feedback"></button>
+      <select id="exercise" aria-label="Exercise"></select>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage">
+      <video id="video" playsinline muted autoplay></video>
+      <canvas id="overlay"></canvas>
+
+      <div id="start" class="start">
+        <h1 id="ex-name">Squat</h1>
+        <p id="ex-help"></p>
+        <button id="go">Start camera</button>
+        <p id="load" class="muted"></p>
+      </div>
+
+      <div class="hud">
+        <div id="status" class="status idle">
+          <span id="status-text">Ready</span>
+        </div>
+        <div class="reps"><span id="reps">0</span><small>reps</small></div>
+      </div>
+      <div id="cue" class="cue">Step into frame</div>
+      <div id="metrics" class="metrics"></div>
+      <figure class="demo"><svg id="demo" aria-label="Correct form animation"></svg><figcaption>Correct form</figcaption></figure>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
