@@ -38,9 +38,32 @@
 - Back lean > 45° → **"Chest up"**
 - Both ok → **"Good rep!"**
 
+## Jumping Jacks rules
+```
+  closed           open (top)        closed
+    O              \ O /               O
+   /|\               |               /|\
+    |                |                |
+   | |             /   \             | |
+ arms down     wrists > head      back in   → +1 rep
+ feet together  feet > 1.5× shoulders
+```
+- Wrists not above head at top → **"Arms higher"**
+- Feet < ~1.5× shoulder width at top → **"Feet wider"**
+- Bad rep = not counted.
+- Face camera, whole body in view.
+
+## Voice
+- Good rep → says count: "One", "Two"…
+- Praise only every 5th rep (+ rare random). No same praise twice in row.
+- Fix → said at once, beats count.
+- Screen: big count, no "Good rep" chatter. Cue box only for fixes.
+- Picks best voice (Premium/Enhanced/Neural → Google → Samantha, Ava…). Dropdown to switch, remembered.
+- Better voices (Mac): System Settings → Accessibility → Spoken Content → System Voice → Manage Voices.
+
 ## Notes
 - You pick exercise. App not guess.
-- Stand side-on, whole body in view.
+- Squat: stand side-on, whole body in view. Jumping Jacks: face camera.
 - Numbers = coach rules of thumb. Tune later.
 - New exercise = new small rule file. Same AI model.
-- Stick-man shows correct move, loops. Each exercise has own keyframes. Voice says fix ("Go lower", "Chest up") at once, praise on good rep ("Nice one"…). Local voice, no network. Mute button.
+- Stick-man shows correct move, loops. Each exercise has own keyframes. Voice says fix ("Go lower", "Chest up") at once, counts good reps. Mute button.

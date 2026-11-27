@@ -12,6 +12,7 @@
   <header class="bar">
     <div class="brand"><span class="dot"></span>Posey</div>
     <div class="controls">
+      <select id="voice" class="voice" aria-label="Voice" title="Voice" hidden></select>
       <button id="mute" class="icon" aria-label="Mute voice" aria-pressed="false" title="Voice feedback"></button>
       <select id="exercise" aria-label="Exercise"></select>
     </div>
@@ -35,6 +36,7 @@
         </div>
         <div class="reps"><span id="reps">0</span><small>reps</small></div>
       </div>
+      <div id="flash" class="flash" aria-hidden="true"></div>
       <div id="cue" class="cue">Step into frame</div>
       <div id="metrics" class="metrics"></div>
       <figure class="demo"><svg id="demo" aria-label="Correct form animation"></svg><figcaption>Correct form</figcaption></figure>

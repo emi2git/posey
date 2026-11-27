@@ -1,7 +1,8 @@
 // Looping stick-man demo. Each exercise supplies `demo = { duration, keyframes: [{ t, pose }] }`,
-// where t is 0..1 within the loop and pose maps joint -> [x, y] in a 0..100 box (side view, facing right).
+// where t is 0..1 within the loop and pose maps joint -> [x, y] in a 0..100 box (floor at y=92).
+// Optional `limbs` lists the polylines to draw (default: side view, facing right). Every pose needs a `head`.
 const NS = "http://www.w3.org/2000/svg";
-const LIMBS = [
+const SIDE_LIMBS = [
   ["shoulder", "elbow", "wrist"],
   ["shoulder", "hip"],
   ["hip", "knee", "ankle", "toe"],
@@ -21,18 +22,26 @@ export function mountDemo(svg) {
   svg.setAttribute("viewBox", "0 0 100 100");
   const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; };
   el("line", { x1: 10, y1: 92, x2: 90, y2: 92, class: "floor" });
-  const lines = LIMBS.map(() => el("polyline", { class: "limb" }));
   const head = el("circle", { r: 6, class: "head" });
-  let demo = null;
+  let demo = null, limbs = [], lines = [];
 
   function frame(now) {
     requestAnimationFrame(frame);
     if (!demo) return;
     const p = poseAt(demo, (now % demo.duration) / demo.duration);
-    LIMBS.forEach((names, i) => lines[i].setAttribute("points", names.map((n) => p[n].join(",")).join(" ")));
+    limbs.forEach((names, i) => lines[i].setAttribute("points", names.map((n) => p[n].join(",")).join(" ")));
     head.setAttribute("cx", p.head[0]);
     head.setAttribute("cy", p.head[1]);
   }
   requestAnimationFrame(frame);
-  return { set(d) { demo = d; svg.parentElement.hidden = !d; } };
+  return {
+    set(d) {
+      demo = d;
+      svg.parentElement.hidden = !d;
+      lines.forEach((l) => l.remove());
+      limbs = d?.limbs || SIDE_LIMBS;
+      lines = limbs.map(() => el("polyline", { class: "limb" }));
+      svg.appendChild(head); // keep the head on top
+    },
+  };
 }

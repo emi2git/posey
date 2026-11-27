@@ -45,6 +45,8 @@ export const squat = {
     };
   },
 
+  describe: (m) => `${m.side} side · knee ${m.knee.toFixed(0)}° · lean ${m.lean.toFixed(0)}°`,
+
   createRepCounter() {
     let phase = "up";      // up | down
     let started = false;   // went below DESCENT this rep
@@ -52,19 +54,19 @@ export const squat = {
     let count = 0;
     return {
       get count() { return count; },
-      // returns { count, event: null | "rep" | "shallow", cue (neutral guidance), phase }
-      // Form errors come from check() messages and the "shallow" event (-> "Go lower").
+      // returns { count, event: null | "rep" | "fault", fault (spoken cue), cue (neutral guidance), phase }
+      // Form errors come from check() messages and the "fault" event (shallow rep -> "Go lower").
       update(m) {
         if (!m) return { count, event: null, cue: null };
-        let event = null, cue = null;
+        let event = null, fault = null, cue = null;
         if (m.knee < DESCENT) started = true;
         if (m.knee < DOWN) { deep = true; phase = "down"; }
         if (m.knee > UP && started) {
-          if (deep) { count++; event = "rep"; } else event = "shallow";
+          if (deep) { count++; event = "rep"; } else { event = "fault"; fault = "Go lower"; }
           started = deep = false; phase = "up";
         }
         cue = deep ? "Now drive up" : started ? "Keep going" : "Squat down";
-        return { count, event, cue, phase };
+        return { count, event, fault, cue, phase };
       },
     };
   },

@@ -20,14 +20,29 @@ Stand side-on, full body in frame. Uses the more visible side.
 - Shallow rep (below 140° but never 100°): "Go lower".
 - Torso lean (shoulder-hip vs. vertical) above 45°: "Chest up".
 
+## Jumping Jacks
+
+Face the camera, whole body in frame. Arms = lower wrist height (0 at the shoulder line, 1 at the top of the head);
+feet = ankle spread / shoulder width.
+
+- A rep starts when the arms rise past -0.2 or the feet open past 1.4x, and ends when arms are back down (< -0.5)
+  with feet together (< 1.3x). It counts only if the peak reached arms >= 1 and feet >= 1.5x.
+- Otherwise: "Arms higher" and/or "Feet wider" (not counted).
+
 ## Demo and voice
 
 - A looping stick-man (bottom right) shows the correct movement; each exercise defines its own `demo` keyframes.
-- Voice (Web Speech API, local): corrections are spoken immediately and cancel stale speech; a clean rep gets
-  random praise ("Good job", "Nice one"…, never the same twice in a row). Same phrase is not repeated within 2 s.
+- Voice (Web Speech API): corrections are spoken immediately and cancel stale speech. Each clean rep is counted
+  out loud ("One", "Two"…, digits after twenty). Praise ("Good job", "Keep it up"…) only every 5th rep or, rarely
+  (10%, at least 3 reps apart), at random; never the same phrase twice in a row. Same phrase is not repeated within 2 s.
   Unlocked on the first click; speaker button mutes.
+- Voice picker (header): "Auto" picks the best English voice: names with Premium/Enhanced/Natural/Neural, then Google
+  English voices (Chrome; these are online voices), then good macOS voices (Samantha, Ava, Zoe, Allison…). The choice is
+  saved in localStorage. Rate 1.02, pitch 1.
+- Better voices on macOS: System Settings → Accessibility → Spoken Content → System Voice → Manage Voices, download
+  e.g. "Ava (Premium)" or "Zoe (Premium)", then reload the page.
 
 ## Add an exercise
 
-Create `exercises/<name>.js` exporting `{ id, name, view, instructions, check(landmarks, aspect), createRepCounter(), demo }`
-(see `exercises/squat.js`; helpers in `exercises/geometry.js`) and add it to `exercises/index.js`.
+Create `exercises/<name>.js` exporting `{ id, name, view, instructions, check(landmarks, aspect), describe(metrics), createRepCounter(), demo }`
+(see `exercises/squat.js`, `exercises/jumping-jacks.js` for a front view with custom demo `limbs`; helpers in `exercises/geometry.js`) and add it to `exercises/index.js`.

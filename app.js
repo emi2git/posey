@@ -8,7 +8,7 @@ const MODEL =
 
 const $ = (id) => document.getElementById(id);
 const video = $("video"), canvas = $("overlay"), ctx = canvas.getContext("2d");
-const ui = { status: $("status"), statusText: $("status-text"), cue: $("cue"), reps: $("reps"), metrics: $("metrics") };
+const ui = { status: $("status"), statusText: $("status-text"), cue: $("cue"), reps: $("reps"), metrics: $("metrics"), flash: $("flash") };
 
 // Exposed for automated testing / debugging.
 const state = (window.posey = { ready: false, frames: 0, detected: 0, reps: 0, cue: "", status: "idle", cues: new Set(), statuses: new Set() });
@@ -30,6 +30,23 @@ muteBtn.onclick = () => { voice.setMuted(!voice.muted); paintMute(); };
 paintMute();
 addEventListener("pointerdown", () => voice.unlock(), { once: true });
 
+// Voice picker: "Auto" = best-ranked voice; choice remembered in localStorage.
+const voicePick = $("voice");
+voice.onVoices(() => {
+  const list = voice.voices;
+  voicePick.hidden = !list.length;
+  const auto = list[0] ? `Auto (${list[0].name})` : "Auto";
+  voicePick.innerHTML = `<option value="">${esc(auto)}</option>` +
+    list.map((v) => `<option value="${esc(v.voiceURI)}">${esc(v.name)} · ${esc(v.lang)}</option>`).join("");
+  voicePick.value = list.some((v) => v.voiceURI === voice.chosen) ? voice.chosen : "";
+});
+voicePick.onchange = () => {
+  voice.choose(voicePick.value);
+  voice.unlock();
+  voice.correct(`Hi, I'm ${voice.active?.name.replace(/\s*\(.*\)$/, "") || "your coach"}`);
+};
+function esc(t) { return String(t).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`); }
+
 // Picker
 const pick = $("exercise");
 pick.innerHTML = exercises.map((e) => `<option value="${e.id}">${e.name} · ${e.view}</option>`).join("");
@@ -40,6 +57,8 @@ function selectExercise(id) {
   $("ex-name").textContent = exercise.name;
   $("ex-help").textContent = exercise.instructions;
   ui.reps.textContent = "0";
+  smooth = null; hold = null;
+  voice.reset();
   demo.set(exercise.demo || null);
 }
 selectExercise(exercise.id);
@@ -128,12 +147,15 @@ function render(lm) {
   const now = performance.now();
 
   if (rep.event === "rep") {
-    hold = { until: now + 1200, cue: "Good rep!", ok: true };
-    ui.reps.parentElement.classList.remove("bump");
-    void ui.reps.offsetWidth;
-    ui.reps.parentElement.classList.add("bump");
-  } else if (rep.event === "shallow") {
-    hold = { until: now + 1500, cue: "Go lower", ok: false };
+    hold = null;
+    ui.flash.textContent = rep.count;
+    for (const el of [ui.reps.parentElement, ui.flash]) {
+      el.classList.remove("bump");
+      void el.offsetWidth;
+      el.classList.add("bump");
+    }
+  } else if (rep.event === "fault") {
+    hold = { until: now + 1500, cue: rep.fault, ok: false };
   }
   ui.reps.textContent = rep.count;
   state.reps = rep.count;
@@ -141,17 +163,15 @@ function render(lm) {
   let cue, ok;
   if (!r.ok) { cue = r.messages[0]; ok = false; }
   else if (hold && now < hold.until) { cue = hold.cue; ok = hold.ok; }
-  else { cue = rep.cue || ""; ok = true; }
+  else { cue = ""; ok = true; } // no on-screen chatter while form is fine; the count speaks for itself
 
   if (r.highlight) highlight(r.highlight, ok);
 
-  // Speak: corrections first (immediately), praise only on a clean rep.
+  // Speak: corrections first (immediately), otherwise count each clean rep.
   if (!ok) voice.correct(cue);
-  else if (rep.event === "rep") voice.praise();
+  else if (rep.event === "rep") voice.count(rep.count);
 
-  const m = smooth;
-  show(ok ? "good" : "bad", ok ? "Good form" : "Fix form", cue,
-    `${m.side} side · knee ${m.knee.toFixed(0)}° · lean ${m.lean.toFixed(0)}°`);
+  show(ok ? "good" : "bad", ok ? "Tracking" : "Fix form", cue, exercise.describe ? exercise.describe(smooth) : "");
 }
 
 function highlight(pts, ok) {
@@ -159,15 +179,18 @@ function highlight(pts, ok) {
   ctx.strokeStyle = ok ? "#22c55e" : "#ef4444";
   ctx.lineWidth = Math.max(4, w / 160);
   ctx.lineCap = "round";
-  ctx.beginPath();
-  pts.forEach((p, i) => (i ? ctx.lineTo(p.x * w, p.y * h) : ctx.moveTo(p.x * w, p.y * h)));
-  ctx.stroke();
+  for (const line of Array.isArray(pts[0]) ? pts : [pts]) {
+    ctx.beginPath();
+    line.forEach((p, i) => (i ? ctx.lineTo(p.x * w, p.y * h) : ctx.moveTo(p.x * w, p.y * h)));
+    ctx.stroke();
+  }
 }
 
 function show(kind, label, cue, metrics) {
   ui.status.className = `status ${kind}`;
   ui.statusText.textContent = label;
   ui.cue.textContent = cue;
+  ui.cue.hidden = !cue;
   ui.metrics.textContent = metrics;
   state.status = kind; state.cue = cue;
   state.cues.add(cue); state.statuses.add(kind);
