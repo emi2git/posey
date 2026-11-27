@@ -12,6 +12,15 @@ MediaPipe PoseLandmarker (runs in the browser, loaded from a CDN). Plain HTML/JS
 The camera only works on `localhost` or HTTPS. On a phone, open it through an HTTPS
 tunnel (e.g. `cloudflared tunnel --url http://localhost:8000`).
 
+## Deploy
+
+Cloudflare Pages project `posey` (live at https://posey-c55.pages.dev). Copy only the site files to a temp folder, then deploy:
+
+```sh
+D=$(mktemp -d) && cp -R index.html app.js style.css demo.js voice.js exercises "$D"/ \
+  && npx wrangler pages deploy "$D" --project-name posey --branch main --commit-dirty=true; rm -rf "$D"
+```
+
 ## Squat (sample exercise)
 
 Stand side-on, full body in frame. Uses the more visible side.
