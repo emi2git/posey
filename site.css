@@ -111,21 +111,21 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- Sections ---------- */
-.section { padding-block: 64px; }
-.section-tight { padding-block: 40px; }
+.section { padding-block: 48px; }
+.section-tight { padding-block: 32px; }
 .section-alt { background: var(--bg-soft); border-block: 1px solid var(--border); }
 .eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-.section-head { max-width: 640px; margin-bottom: 32px; }
+.section-head { max-width: 640px; margin-bottom: 24px; }
 .section-head h2 { font-size: clamp(26px, 4vw, 36px); }
 .section-head p { color: var(--muted); font-size: 17px; }
 .lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); }
 
-.page-head { padding-block: 56px 24px; }
+.page-head { padding-block: 48px 16px; }
 .page-head h1 { font-size: clamp(34px, 6vw, 52px); }
 .page-head .lead { max-width: 640px; }
 
 /* ---------- Hero ---------- */
-.hero { padding-block: 56px 64px; }
+.hero { padding-block: 48px 56px; }
 .hero-grid { display: grid; gap: 40px; align-items: center; grid-template-columns: 1.15fr 0.85fr; }
 .hero h1 { font-size: clamp(38px, 6.4vw, 64px); letter-spacing: -0.035em; margin-bottom: 18px; }
 .hero h1 .hl { color: var(--accent); }
@@ -163,7 +163,7 @@ svg.stick .floor { stroke: var(--floor); stroke-width: 2; stroke-linecap: round;
 
 /* ---------- Steps ---------- */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; padding: 0; margin: 0; counter-reset: step; }
-.step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; counter-increment: step; }
+.step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; counter-increment: step; }
 .step::before {
   content: counter(step); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
   background: var(--accent-soft); color: var(--accent); font-weight: 800; margin-bottom: 14px;
@@ -174,13 +174,13 @@ svg.stick .floor { stroke: var(--floor); stroke-width: 2; stroke-linecap: round;
 
 /* ---------- Features ---------- */
 .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.feature { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.feature { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
 .feature .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); margin-bottom: 14px; }
 .feature .ic svg { width: 22px; height: 22px; }
 .feature h3 { font-size: 17px; margin-bottom: 6px; }
 .feature p { color: var(--muted); margin: 0; font-size: 15px; }
 @media (max-width: 960px) { .features { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 520px) { .features { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .features { gap: 12px; } .feature { padding: 16px; } }
 
 /* ---------- Exercise cards ---------- */
 .ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
@@ -265,6 +265,7 @@ svg.stick .floor { stroke: var(--floor); stroke-width: 2; stroke-linecap: round;
 .rule { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
 .rule h3 { font-size: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .rule .ex-checks { margin: 0; }
+.prose + .rules { margin-top: 12px; }
 
 .callout { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
 .callout .ic { flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--good) 14%, transparent); color: var(--good); }
@@ -276,9 +277,9 @@ svg.stick .floor { stroke: var(--floor); stroke-width: 2; stroke-linecap: round;
 @media (max-width: 720px) { .cards-2 { grid-template-columns: 1fr; } }
 
 /* ---------- 404 ---------- */
-.notfound { text-align: center; padding-block: 72px 88px; }
+.notfound { text-align: center; padding-block: 56px 72px; }
 .notfound svg.stick { display: block; width: 200px; height: 200px; margin: 0 auto 8px; }
-.notfound h1 { font-size: clamp(34px, 6vw, 52px); }
+.notfound h1 { font-size: clamp(34px, 6vw, 52px); margin-bottom: 24px; }
 .notfound .lead { max-width: 480px; margin: 0 auto 28px; }
 .notfound .actions { justify-content: center; }
 

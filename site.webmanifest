@@ -1,7 +1,7 @@
 {
   "name": "Posey",
   "short_name": "Posey",
-  "description": "Your AI form coach, right in the browser.",
+  "description": "Form coach in your browser.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

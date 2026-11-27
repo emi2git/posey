@@ -13,10 +13,10 @@ export const squat = {
   id: "squat",
   name: "Squat",
   view: "Side view",
-  summary: "The classic lower-body move. Posey watches your depth and your back.",
-  checks: ["Depth: knee angle below 100° (thighs about parallel)", "Chest up: torso leans less than 45°", "Full reps: stand tall (knee above 160°) to finish"],
+  summary: "Depth and back.",
+  checks: ["Knee below 100° (thighs parallel)", "Torso lean under 45°", "Stand tall to finish"],
   instructions:
-    "Stand side-on to the camera, full body in frame. Squat until your thighs are about parallel, keep your chest up, then stand tall.",
+    "Side-on, full body in frame. Thighs parallel, chest up, stand tall.",
 
   // Looping stick-man of a correct rep (0..100 box, side view, facing right, floor at y=92).
   demo: {
